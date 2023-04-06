@@ -1,10 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
-  const [text, setText] = useState("");
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await fetch("/api/users");
@@ -13,25 +12,6 @@ export default function Home() {
     };
     fetchUsers();
   }, []);
-
-  const postData = useCallback(
-    async (e) => {
-      setText(e.target.value);
-      // console.log(text);
-      const res = await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text }),
-      });
-      if (res.ok) {
-        const resData = await res.json();
-        setUsers(resData.users);
-      }
-    },
-    [text]
-  );
 
   return (
     <div>
@@ -43,7 +23,7 @@ export default function Home() {
           <a className={styles.anchor}>About</a>
         </Link>
       </header>
-      <input type="text" onKeyUp={postData} />
+
       <ul>
         {users.map((user) => (
           <li key={user.user_id}>

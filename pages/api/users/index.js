@@ -17,9 +17,7 @@ export default async function handler(req, res) {
         break;
       case "POST":
         const querySql =
-          "SELECT * FROM users where last_name like '%" +
-          req.body.key.text +
-          "%'";
+          "SELECT * FROM users where last_name like '%" + req.body.text + "%'";
         const valueParams = [];
         const data = await query({ query: querySql, values: [valueParams] });
 
@@ -32,17 +30,6 @@ export default async function handler(req, res) {
         res.json({ message: "GET/POST/PATCHでもないリクエストです。" });
         break;
     }
-
-    // console.log(req.body.name.text);
-
-    // if (req.method == "GET") {
-    //   const querySql = "SELECT * FROM users";
-    //   const valueParams = [];
-    //   const data = await query({ query: querySql, values: [valueParams] });
-
-    //   res.status(200).json({ users: data });
-    //   console.log(req.method);
-    // }
   } catch (error) {
     // unhide to check error
     // res.status(500).json({ error: error.message });
